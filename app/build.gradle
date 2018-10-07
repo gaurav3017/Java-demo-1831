@@ -18,7 +18,7 @@ android {
     }
 
     sourceSets {
-        lightningPlus.setRoot('src/FiddlePlus')
+        fiddlePlus.setRoot('src/FiddlePlus')
 //        lightningLite.setRoot('src/LightningLite')
     }
 
@@ -50,7 +50,7 @@ android {
     flavorDimensions "capabilities"
 
     productFlavors {
-        lightningPlus {
+        fiddlePlus {
             dimension "capabilities"
             buildConfigField "boolean", "FULL_VERSION", "Boolean.parseBoolean(\"true\")"
             applicationId "in.browser.fiddle"
