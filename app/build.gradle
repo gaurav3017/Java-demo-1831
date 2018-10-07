@@ -92,6 +92,9 @@ dexcount {
 
 dependencies {
     // test dependencies
+    implementation 'com.google.firebase:firebase-core:11.8.0'
+    implementation 'com.google.firebase:firebase-auth:11.8.0'
+    implementation 'com.google.firebase:firebase-database:11.8.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.assertj:assertj-core:3.10.0'
     testImplementation 'org.mockito:mockito-core:2.21.0'
@@ -171,9 +174,12 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testLightningPlusDebugUni
         html.enabled = true
     }
 
-    final def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-    final def debugTree = fileTree(dir: "$buildDir/intermediates/classes/lightningPlus/debug", excludes: fileFilter)
-    final def kotlinDebugTree = fileTree(dir: "$buildDir/tmp/kotlin-classes/lightningPlusDebug", excludes: fileFilter)
+    final
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    final
+    def debugTree = fileTree(dir: "$buildDir/intermediates/classes/lightningPlus/debug", excludes: fileFilter)
+    final
+    def kotlinDebugTree = fileTree(dir: "$buildDir/tmp/kotlin-classes/lightningPlusDebug", excludes: fileFilter)
     final def mainSrc = "${project.projectDir}/src/test/java"
 
     sourceDirectories = files([mainSrc])
@@ -183,3 +189,5 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testLightningPlusDebugUni
             "outputs/code-coverage/connected/*coverage.ec"
     ])
 }
+
+apply plugin: 'com.google.gms.google-services'
