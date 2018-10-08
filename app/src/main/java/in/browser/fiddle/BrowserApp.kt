@@ -8,11 +8,13 @@ import `in`.browser.fiddle.utils.FileUtils
 import `in`.browser.fiddle.utils.MemoryLeakUtils
 import android.app.Activity
 import android.app.Application
+import android.content.Intent
 import android.os.Build
 import android.os.StrictMode
 import android.support.v7.app.AppCompatDelegate
 import android.util.Log
 import android.webkit.WebView
+import com.google.firebase.auth.FirebaseAuth
 import com.squareup.leakcanary.LeakCanary
 import io.reactivex.Scheduler
 import io.reactivex.Single
@@ -29,6 +31,8 @@ class BrowserApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+
         if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder()
                 .detectAll()

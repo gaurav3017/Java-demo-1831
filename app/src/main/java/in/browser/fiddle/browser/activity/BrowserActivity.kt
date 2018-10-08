@@ -5,6 +5,7 @@
 package `in`.browser.fiddle.browser.activity
 
 import `in`.browser.fiddle.IncognitoActivity
+import `in`.browser.fiddle.LoginActivity
 import `in`.browser.fiddle.R
 import `in`.browser.fiddle.browser.*
 import `in`.browser.fiddle.browser.fragment.BookmarksFragment
@@ -87,6 +88,7 @@ import androidx.core.net.toUri
 import androidx.core.widget.toast
 import butterknife.ButterKnife
 import com.anthonycr.grant.PermissionsManager
+import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.Completable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
@@ -100,6 +102,10 @@ import java.io.IOException
 import javax.inject.Inject
 
 abstract class BrowserActivity : ThemableBrowserActivity(), BrowserView, UIController, OnClickListener {
+
+    //Firebase
+    private var mAuth: FirebaseAuth? = null
+    private var mAuthListener: FirebaseAuth.AuthStateListener? = null
 
     // Toolbar Views
     private var searchBackground: View? = null
@@ -214,6 +220,18 @@ abstract class BrowserActivity : ThemableBrowserActivity(), BrowserView, UIContr
         injector.inject(this)
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this)
+//        Toast.makeText(this, "in onCreate", Toast.LENGTH_SHORT).show()
+
+
+        mAuth = FirebaseAuth.getInstance()
+        mAuthListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            if (firebaseAuth.currentUser == null) {
+//                startActivity(Intent(this@BrowserActivity, LoginActivity::class.java))
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+//                Toast.makeText(this@BrowserActivity, "LoginAct called from browseract:217", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         val incognitoNotification = IncognitoNotification(this, notificationManager)
         tabsManager.addTabNumberChangedListener {
@@ -1237,6 +1255,7 @@ abstract class BrowserActivity : ThemableBrowserActivity(), BrowserView, UIContr
 
     override fun onStart() {
         super.onStart()
+        mAuth!!.addAuthStateListener(mAuthListener!!)
         proxyUtils.onStart(this)
     }
 
